@@ -235,6 +235,8 @@ def journal():
         if note: journal_entries.append(note)
         return '', 204
     return jsonify(journal_entries)
+    import os
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Default to 10000 if PORT not set
+    app.run(host='0.0.0.0', port=port)
