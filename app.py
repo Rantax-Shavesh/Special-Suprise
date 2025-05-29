@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, request, render_template_string, url_for
-import random
+from flask import Flask, jsonify, request
 import os
 
 app = Flask(__name__)
@@ -38,7 +37,7 @@ sweet_messages = [
     "The world is luckier with you in it 🌸"
 ]
 
-compliments_list = [
+compliments = [
     "Devya, you're absolutely glowing today 🌟",
     "Your smile could light up the whole sky 🌈",
     "You're made of stardust and kindness ✨",
@@ -54,10 +53,9 @@ mood_responses = {
     "excited": "Use that energy to make magic happen! 💥"
 }
 
-
 @app.route('/')
 def home():
-    return render_template_string('''
+    return '''
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,7 +84,7 @@ def home():
     button:hover { background: #ec407a; }
     #result, #compliment, #mood-result { margin-top: 20px; font-size: 1.2rem; color: #880e4f; }
     textarea {
-      width: 80%;
+      width: 80%%;
       height: 100px;
       border-radius: 10px;
       padding: 10px;
@@ -101,44 +99,8 @@ def home():
       opacity: 0.6;
     }
     @keyframes float {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-800px); opacity: 0; }
-    }
-    .side-columns {
-      display: flex;
-      justify-content: space-between;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-    }
-    .side-column {
-      display: flex;
-      flex-direction: column;
-      justify-content: start;
-      gap: 15px;
-      padding: 15px;
-    }
-    .left-column {
-      align-items: flex-start;
-      margin-left: 10px;
-    }
-    .right-column {
-      align-items: flex-end;
-      margin-right: 10px;
-    }
-    .side-column img {
-      width: 100px;
-      border-radius: 20px;
-      border: 3px solid #ff89c2;
-      box-shadow: 0 0 15px #ffb3da;
-      transition: transform 0.3s ease;
-      pointer-events: auto;
-    }
-    .side-column img:hover {
-      transform: scale(1.05);
+      0%% { transform: translateY(0); opacity: 1; }
+      100%% { transform: translateY(-800px); opacity: 0; }
     }
   </style>
 </head>
@@ -151,20 +113,6 @@ def home():
     <button onclick="fetchVibe('/bake')">🧁 Baking Idea</button>
     <button onclick="fetchVibe('/dance')">💃 Dance Break</button>
     <button onclick="fetchVibe('/message')">💌 Sweet Message</button>
-  </div>
-
-  <div class="side-columns">
-    <div class="side-column left-column">
-      <img src="{{ url_for('static', filename='images/image1.png') }}">
-      <img src="{{ url_for('static', filename='images/image2.png') }}">
-      <img src="{{ url_for('static', filename='images/image3.png') }}">
-      <img src="{{ url_for('static', filename='images/image4.png') }}">
-    </div>
-    <div class="side-column right-column">
-      <img src="{{ url_for('static', filename='images/image5.png') }}">
-      <img src="{{ url_for('static', filename='images/image6.png') }}">
-      <img src="{{ url_for('static', filename='images/image7.png') }}">
-    </div>
   </div>
 
   <div id="result"></div>
@@ -238,13 +186,15 @@ def home():
         });
     }
 
-    const compliments = {{ compliments | tojson }};
+    // Compliment Carousel
+    const compliments = %s;
     let index = 0;
     setInterval(() => {
       document.getElementById("compliment").innerText = compliments[index];
-      index = (index + 1) % compliments.length;
+      index = (index + 1) %% compliments.length;
     }, 5000);
 
+    // Floating hearts
     setInterval(() => {
       let heart = document.createElement('div');
       heart.className = 'heart';
@@ -259,7 +209,7 @@ def home():
   </script>
 </body>
 </html>
-''', compliments=compliments_list)
+    ''' % compliments  # Inserts Python list directly into JavaScript
 
 @app.route('/vibe')
 def vibe(): return jsonify(random.choice(cozy_vibes))
@@ -285,7 +235,8 @@ def journal():
         if note: journal_entries.append(note)
         return '', 204
     return jsonify(journal_entries)
+    import os
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))
+    port = int(os.environ.get("PORT", 10000))  # Default to 10000 if PORT not set
     app.run(host='0.0.0.0', port=port)
