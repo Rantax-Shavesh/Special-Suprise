@@ -101,6 +101,47 @@ def home():
     @keyframes float {
       0%% { transform: translateY(0); opacity: 1; }
       100%% { transform: translateY(-800px); opacity: 0; }
+     
+    .side-columns {
+      display: flex;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .side-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      gap: 15px;
+      padding: 15px;
+    }
+
+    .left-column {
+      align-items: flex-start;
+      margin-left: 10px;
+    }
+
+    .right-column {
+      align-items: flex-end;
+      margin-right: 10px;
+    }
+
+    .side-column img {
+      width: 100px;
+      border-radius: 20px;
+      border: 3px solid #ff89c2;
+      box-shadow: 0 0 15px #ffb3da;
+      transition: transform 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .side-column img:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -114,6 +155,21 @@ def home():
     <button onclick="fetchVibe('/dance')">💃 Dance Break</button>
     <button onclick="fetchVibe('/message')">💌 Sweet Message</button>
   </div>
+
+  <div class="side-columns">
+  <div class="side-column left-column">
+    <img src="{{ url_for('static', filename='images/image1.png') }}">
+    <img src="{{ url_for('static', filename='images/image2.png') }}">
+    <img src="{{ url_for('static', filename='images/image3.png') }}">
+    <img src="{{ url_for('static', filename='images/image4.png') }}">
+  </div>
+
+  <div class="side-column right-column">
+    <img src="{{ url_for('static', filename='images/image5.png') }}">
+    <img src="{{ url_for('static', filename='images/image6.png') }}">
+    <img src="{{ url_for('static', filename='images/image7.png') }}">
+  </div>
+</div>
 
   <div id="result"></div>
 
